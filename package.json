@@ -1,0 +1,24 @@
+{
+  "name": "node-easypay",
+  "version": "0.0.0",
+  "description": "Node module for Easypay API.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test/createInvoice",
+    "test/createInvoice": "mocha --timeout 5000 test/createInvoice.test.js"
+  },
+  "keywords": [
+    "easypay"
+  ],
+  "author": "noglik",
+  "license": "MIT",
+  "dependencies": {
+    "iconv": "^2.3.0",
+    "q": "^1.5.1",
+    "request": "^2.85.0"
+  },
+  "devDependencies": {
+    "mocha": "^5.0.4",
+    "should": "^13.2.1"
+  }
+}
