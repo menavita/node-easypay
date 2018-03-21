@@ -1,5 +1,5 @@
 # node-easypay
-Node module for Easypay API.
+Node module for [Easypay API.](https://ssl.easypay.by/light/)
 
 ```javascript
 var Easypay = require('node-easypay');

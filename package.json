@@ -1,12 +1,20 @@
 {
   "name": "node-easypay",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Node module for Easypay API.",
   "main": "index.js",
   "scripts": {
     "test": "npm run test/createInvoice",
     "test/createInvoice": "mocha --timeout 5000 test/createInvoice.test.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:menavita/node-easypay.git"
+  },
+  "bugs": {
+    "url": "https://github.com/menavita/node-easypay/issues"
+  },
+  "homepage": "https://github.com/menavita/node-easypay#readme",
   "keywords": [
     "easypay"
   ],
