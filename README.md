@@ -3,13 +3,37 @@ Node module for [Easypay API.](https://ssl.easypay.by/light/)
 
 ```javascript
 var Easypay = require('node-easypay');
+
+var easypay = new Easypay('web_key');
 ```
+For tests pass true as second param.
 ## Functions
 Currently SOAP is not implemented.
 
+### Create invoice. Return res object.
+```javascript
+easypay.createInvoice({
+  'EP_MerNo': 'ok1111'
+  'EP_OrderNo': '12312412',
+  'EP_Sum': 12.50,
+  'EP_Expires': 2,
+  'EP_Comment': 'Тест',
+  'EP_OrderInfo': 'Тест',
+  'EP_Success_URL': 'http://mytestshop.by/success/',
+  'EP_Cancel_Url': 'http://mytestshop.by/cancel/',
+  'EP_Debug': '0'
+})
+.then(res) {
+  ...
+}
+.catch(err) {
+  ...
+}
+```
+
 ### Create signature. Return signature as string.
 ```javascript
-var signature = Easypay.createSignature({
+var signature = easypay.createSignature({
   'EP_OrderNo': '12312412',
   'EP_Sum': 12.50,
   'EP_Expires': 2,
@@ -23,7 +47,7 @@ var signature = Easypay.createSignature({
 
 ### Check signature. Return boolean value.
 ```javascript
-Easypay.checkSignature(params_from_easypay, 'secret_key');
+easypay.checkSignature(params_from_easypay, 'secret_key');
 ```
 
 ## Tests

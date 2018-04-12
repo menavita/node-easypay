@@ -1,11 +1,19 @@
 var crypto = require('crypto');
+var Iconv = require('iconv').Iconv;
+var Q = require('q');
+var request = require('request');
 
-exports.createSignature = function(params, key) {
-  return crypto.createHash('md5')
-    .update(params.EP_MerNo + key + params.EP_OrderNo + params.EP_Sum).digest('hex');
+function Easypay(web_key, test) {
+  this.url = test ? 'https://ssl.easypay.by/test/client_weborder.php' : 'https://ssl.easypay.by/weborder/';
+  this.web_key = web_key;
 }
 
-exports.checkSignature = function(params, key) {
+Easypay.prototype.createSignature = function(params) {
+  return crypto.createHash('md5')
+    .update(params.EP_MerNo + this.web_key + params.EP_OrderNo + params.EP_Sum).digest('hex');
+}
+
+Easypay.prototype.checkSignature = function(params) {
   if (! params.notify_signature) {
     return false;
   }
@@ -15,10 +23,50 @@ exports.checkSignature = function(params, key) {
     + params.mer_no
     + params.card
     + params.purch_date
-    + key;
+    + this.web_key;
 
-  if (params.notify_signature === crypti.createHash('md5').update(united).digest('hex')) {
+  if (params.notify_signature === crypto.createHash('md5').update(united).digest('hex')) {
     return true;
   }
   return false;
 }
+
+Easypay.prototype.createInvoice = function(params) {
+  var d = Q.defer();
+
+  var body = {
+    'EP_MerNo': params.EP_MerNo,
+    'EP_OrderNo': params.EP_OrderNo,
+    'EP_Sum': params.EP_Sum,
+    'EP_Expires': params.EP_Expires,
+    'EP_Comment': params.EP_Comment,
+    'EP_OrderInfo': params.EP_OrderInfo,
+    'EP_Hash': this.createSignature(params),
+    'EP_Success_URL': params.EP_Success_URL,
+    'EP_Cancel_Url': params.EP_Cancel_Url,
+    'EP_Url_Type': params.EP_Url_Type,
+    'EP_Debug': params.EP_Debug,
+    'EP_Encoding': params.EP_Encoding || 'utf-8',
+    'EP_Xml': params.EP_Xml,
+    'EP_PayType': params.EP_PayType
+  };
+
+  request.post({
+    uri: this.url,
+    form: body,
+    encoding: 'binary'
+  }, function(err, res, body) {
+    console.log(res);
+    if (err) d.reject(err);
+    if (body) {
+      var buffer = new Buffer(body, 'binary');
+      var iconv = new Iconv('windows-1251', 'utf-8');
+      res.body = iconv.convert(buffer, 'binary').toString();
+    }
+    d.resolve(res);
+  })
+
+  return d.promise;
+}
+
+module.exports = Easypay;
