@@ -56,7 +56,6 @@ Easypay.prototype.createInvoice = function(params) {
     form: body,
     encoding: 'binary'
   }, function(err, res, body) {
-    console.log(res);
     if (err) d.reject(err);
     if (body) {
       var buffer = new Buffer(body, 'binary');
