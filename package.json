@@ -1,6 +1,6 @@
 {
   "name": "node-easypay",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Node module for Easypay API.",
   "main": "index.js",
   "scripts": {
@@ -23,7 +23,8 @@
   "dependencies": {
     "iconv": "^2.3.0",
     "q": "^1.5.1",
-    "request": "^2.85.0"
+    "request": "^2.85.0",
+    "xml2js": "^0.4.19"
   },
   "devDependencies": {
     "mocha": "^5.0.4",

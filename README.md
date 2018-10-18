@@ -23,12 +23,12 @@ easypay.createInvoice({
   'EP_Cancel_Url': 'http://mytestshop.by/cancel/',
   'EP_Debug': '0'
 })
-.then(res) {
+.then(function(res) {
   ...
-}
-.catch(err) {
+})
+.catch(function(err) {
   ...
-}
+})
 ```
 
 ### Create signature. Return signature as string.
@@ -48,6 +48,17 @@ var signature = easypay.createSignature({
 ### Check signature. Return boolean value.
 ```javascript
 easypay.checkSignature(params_from_easypay, 'secret_key');
+```
+
+### Parse notification JSON response that contains XML
+```javascript
+easpay.parseResponse(body)
+  .then(function(result) {
+    ...
+  })
+  .catch(function(err) {
+    ...
+  })
 ```
 
 ## Tests

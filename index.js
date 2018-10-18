@@ -2,6 +2,7 @@ var crypto = require('crypto');
 var Iconv = require('iconv').Iconv;
 var Q = require('q');
 var request = require('request');
+var parseXMLString = require('xml2js').parseString;
 
 function Easypay(web_key, test) {
   this.url = test ? 'https://ssl.easypay.by/test/client_weborder.php' : 'https://ssl.easypay.by/weborder/';
@@ -66,6 +67,16 @@ Easypay.prototype.createInvoice = function(params) {
   })
 
   return d.promise;
+}
+
+Easypay.prototype.parseResponse = function(body) {
+  return new Promise(function(resolve, reject) {
+    if (!body.ep_notify_register) reject(new Error('ep_notify_register not found in request body'));
+    parseXMLString(body.ep_notify_register, function(err, result) {
+      if (err) reject(err);
+      resolve(result);
+    })
+  })
 }
 
 module.exports = Easypay;
