@@ -59,13 +59,13 @@ describe("Easypay", function() {
       });
   });
 
-  it("parse notification response", function() {
+  it("parse notification request body", function() {
     // actual notification from Easypay
     var body = {
       ep_notify_register:
         '<easypay function="ep_notify_register" date="2018-10-17"><invoices count="1" total_sum="118.8.00"><invoice><card>PT_CARD</card><xml_data>additionalxml</xml_data><mer_no>ok1111</mer_no><purch_date>2018-10-17 12:00:00</purch_date><sum>118.80</sum><order_mer_code>1080</order_mer_code></invoice></invoices></easypay>'
     };
-    easypay.parseResponse(body)
+    easypay.parseNotification(body)
       .then(function(result) {
         console.log(result.easypay.invoices[0].invoice);
       })

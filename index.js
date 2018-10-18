@@ -69,7 +69,7 @@ Easypay.prototype.createInvoice = function(params) {
   return d.promise;
 }
 
-Easypay.prototype.parseResponse = function(body) {
+Easypay.prototype.parseNotification = function(body) {
   return new Promise(function(resolve, reject) {
     if (!body.ep_notify_register) reject(new Error('ep_notify_register not found in request body'));
     parseXMLString(body.ep_notify_register, function(err, result) {
