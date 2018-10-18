@@ -52,7 +52,7 @@ easypay.checkSignature(params_from_easypay, 'secret_key');
 
 ### Parse notification JSON response that contains XML
 ```javascript
-easpay.parseResponse(body)
+easpay.parseNotification(body)
   .then(function(result) {
     ...
   })
